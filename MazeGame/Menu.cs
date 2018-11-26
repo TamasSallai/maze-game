@@ -12,15 +12,25 @@ namespace MazeGame
         public bool EndOfGame { get; private set; } 
         public bool NextLevel { get; private set; } 
         public bool PreviousLevel { get; private set; }
-        public bool GameOver { get; set; }
+        public bool GameOver { get; private set; }
+        public bool RestartGame { get; private set; }
 
-
+        public void ResetBools()
+        {
+            EndOfGame = false;
+            NextLevel = false;
+            PreviousLevel = false;
+            GameOver = false;
+            RestartGame = false;
+        }
 
         public void MainMenu()
         {
+            ResetBools();
+
             Console.WriteLine("1. New Game");
             Console.WriteLine("2. Exit");
-            while (!EndOfGame && !NextLevel)
+            while (!NextLevel)
             {
                 ConsoleKeyInfo KeyInfo = Console.ReadKey(true);
                 switch (KeyInfo.Key)
@@ -29,7 +39,7 @@ namespace MazeGame
                         NextLevel = true;
                         break;
                     case ConsoleKey.D2:
-                        EndOfGame = true;
+                        Environment.Exit(0);
                         break;
                     default:                       
                         break;
@@ -41,9 +51,7 @@ namespace MazeGame
 
         public void NextMenu()
         {
-            EndOfGame = false;
-            NextLevel = false;
-            PreviousLevel = false;
+            ResetBools();           
 
             Console.Clear();
             Console.WriteLine("1. Next Level");
@@ -59,8 +67,7 @@ namespace MazeGame
                         NextLevel = true;
                         Console.Clear();
                         break;
-                    case ConsoleKey.D2:
-                        PreviousLevel = true;
+                    case ConsoleKey.D2:       
                         Console.Clear();
                         break;
                     case ConsoleKey.D3:
@@ -74,7 +81,59 @@ namespace MazeGame
 
         public void GameOverMenu()
         {
-
+            ResetBools();
+            Console.Clear();
+            Console.WriteLine("Game Over");
+            Console.WriteLine("1.Play Again");
+            Console.WriteLine("2.Exit");
+            while (!EndOfGame && !RestartGame)
+            {
+                ConsoleKeyInfo KeyInfo = Console.ReadKey(true);
+                switch (KeyInfo.Key)
+                {
+                    case ConsoleKey.D1:
+                        RestartGame = true;
+                        break;
+                    case ConsoleKey.D2:
+                        EndOfGame = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Console.Clear();
         }
+
+        public void VictoryMenu()
+        {
+            ResetBools();
+            Console.Clear();
+            Console.WriteLine(" _______________________");
+            Console.WriteLine("|                       |");
+            Console.WriteLine("|        VICTORY        |");
+            Console.WriteLine("|                       |");
+            Console.WriteLine("|_______________________|");
+            Console.WriteLine();
+            Console.WriteLine("1. Restart");
+            Console.WriteLine("2. Exit");
+
+            while (!EndOfGame && !RestartGame)
+            {
+                ConsoleKeyInfo KeyInfo = Console.ReadKey(true);
+                switch (KeyInfo.Key)
+                {
+                    case ConsoleKey.D1:
+                        RestartGame = true;
+                        break;
+                    case ConsoleKey.D2:
+                        EndOfGame = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Console.Clear();
+        }
+
     }
 }
